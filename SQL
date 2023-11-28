@@ -1,0 +1,88 @@
+CREATE TABLE CafeShop (
+    Shop_ID INT,
+    ShopName CHAR(40),
+    Location VARCHAR(200),
+    ContactInfo CHAR(20),
+    PRIMARY KEY (Shop_ID)
+);
+
+
+
+CREATE TABLE Waiter (
+    WaiterID INT,
+    Working_hours DECIMAL(2, 2),
+    Wage DECIMAL(5, 2),
+    FirstName CHAR(12),
+    LastName CHAR(12),
+    PRIMARY KEY (WaiterID)
+);
+
+
+CREATE TABLE MenuItem (
+    ItemID INT,
+    Item_Name CHAR(40),
+    Item_Cost DECIMAL(4, 2),
+    QuantityInStock INT,
+    CafeShop_ID INT,
+    PRIMARY KEY (ItemID)
+);
+
+
+CREATE TABLE TableOrder_places (
+    OrderID INT,
+    ItemID INT,
+    Quantity INT,
+    CustomerID INT,
+    OrderDate Date,
+    PRIMARY KEY (OrderID),
+    FOREIGN KEY (ItemID) REFERENCES MenuItem(ItemID)
+   
+
+
+);
+
+CREATE TABLE Table_serves (
+    CustomerID INT,
+    WaiterID INT,
+    OrderID INT,  
+    PRIMARY KEY (CustomerID),
+    FOREIGN KEY (WaiterID) REFERENCES Waiter(WaiterID)
+    FOREIGN KEY (OrderID) REFERENCES TableOrder_places(OrderID)
+);
+
+
+
+CREATE TABLE Bill_generates_and_takes (
+    Bill_Number INT,
+    OrderID INT,
+    CustomerID INT,
+    WaiterID INT,
+    Date DATE,
+    Time TIME,
+    Total DECIMAL(6, 2),
+    Tip_Amount DECIMAL(6, 2),
+    Subtotal DECIMAL(6, 2),
+    Method CHAR(20) CHECK (Method IN ('cash', 'credit card')),
+    PRIMARY KEY (Bill_Number,CustomerID),
+    FOREIGN KEY (WaiterID) REFERENCES Waiter(WaiterID),
+    FOREIGN KEY (CustomerID) REFERENCES Table_serves(CustomerID)
+);
+
+
+CREATE TABLE has (
+    ShopID INT,
+    WaiterID INT,
+    PRIMARY KEY (ShopID, WaiterID),
+    FOREIGN KEY (ShopID) REFERENCES CafeShop(Shop_ID),
+    FOREIGN KEY (WaiterID) REFERENCES Waiter(WaiterID)
+);
+
+
+CREATE TABLE include (
+    ItemID INT,
+    OrderID INT,
+    PRIMARY KEY (ItemID, OrderID),
+    FOREIGN KEY (ItemID) REFERENCES MenuItem(ItemID),
+    FOREIGN KEY (OrderID) REFERENCES TableOrder(OrderID)
+);
+
