@@ -41,7 +41,4 @@ This project is a Cafe Shop Management System developed as part of the CS 306 Fi
 
 ## Relational Model (Create Table Statements)
 
-Below are the SQL `CREATE TABLE` statements for the main entities in the Cafe Shop Management System.
-
-```sql
--- INSERT CREATE TABLE STATEMENTS HERE
+SQL `CREATE TABLE` statements at the SQL file 
